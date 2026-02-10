@@ -77,16 +77,16 @@ class ProductRepositoryTest {
         product.setProductName("Laptop");
         product.setProductQuantity(10);
 
-        service.create(product);
+        productRepository.create(product);
 
         Product updated = new Product();
         updated.setProductId("1");
         updated.setProductName("Gaming Laptop");
         updated.setProductQuantity(5);
 
-        service.update(updated);
+        productRepository.update(updated);
 
-        Product result = service.findById("1");
+        Product result = productRepository.findById("1");
         assertEquals("Gaming Laptop", result.getProductName());
         assertEquals(5, result.getProductQuantity());
     }
@@ -100,7 +100,7 @@ class ProductRepositoryTest {
 
         assertThrows(
                 IllegalArgumentException.class,
-                () -> service.update(updated)
+                () -> productRepository.update(updated)
         );
     }
 
@@ -113,17 +113,17 @@ class ProductRepositoryTest {
         product.setProductName("Mouse");
         product.setProductQuantity(3);
 
-        service.create(product);
-        service.deleteById("2");
+        productRepository.create(product);
+        productRepository.deleteById("2");
 
-        assertNull(service.findById("2"));
+        assertNull(productRepository.findById("2"));
     }
 
     @Test
     void deleteProduct_negativeCase_productNotFound() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> service.deleteById("404")
+                () -> productRepository.deleteById("404")
         );
     }
 }
