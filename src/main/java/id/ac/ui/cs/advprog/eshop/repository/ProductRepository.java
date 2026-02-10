@@ -29,22 +29,27 @@ public class ProductRepository {
         return null;
     }
 
-    public Product update(Product updatedProduct) {
-        for (int i = 0; i < productData.size(); i++) {
-            if (productData.get(i).getProductId()
-                    .equals(updatedProduct.getProductId())) {
-                productData.set(i, updatedProduct);
-                return updatedProduct;
+    public void update(Product product) {
+        for (Product p : productData) {
+            if (p.getProductId().equals(product.getProductId())) {
+                p.setProductName(product.getProductName());
+                p.setProductQuantity(product.getProductQuantity());
+                return;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Product not found");
     }
 
-    public void deleteById(String productId) {
-        productData.removeIf(
-                product -> product.getProductId().equals(productId)
+    public void deleteById(String id) {
+        boolean removed = productData.removeIf(
+                p -> p.getProductId().equals(id)
         );
+
+        if (!removed) {
+            throw new IllegalArgumentException("Product not found");
+        }
     }
+
 
 
 }
