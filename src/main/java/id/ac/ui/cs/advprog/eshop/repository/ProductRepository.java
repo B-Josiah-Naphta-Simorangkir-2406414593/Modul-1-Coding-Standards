@@ -29,12 +29,12 @@ public class ProductRepository {
         return null;
     }
 
-    public void update(Product product) {
+    public Product update(Product product) {
         for (Product p : productData) {
             if (p.getProductId().equals(product.getProductId())) {
                 p.setProductName(product.getProductName());
                 p.setProductQuantity(product.getProductQuantity());
-                return;
+                return p;
             }
         }
         throw new IllegalArgumentException("Product not found");
