@@ -67,4 +67,63 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), productIterator.next().getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    // ================= EDIT PRODUCT =================
+
+    @Test
+    void editProduct_positiveCase() {
+        Product product = new Product();
+        product.setProductId("1");
+        product.setProductName("Laptop");
+        product.setProductQuantity(10);
+
+        service.create(product);
+
+        Product updated = new Product();
+        updated.setProductId("1");
+        updated.setProductName("Gaming Laptop");
+        updated.setProductQuantity(5);
+
+        service.update(updated);
+
+        Product result = service.findById("1");
+        assertEquals("Gaming Laptop", result.getProductName());
+        assertEquals(5, result.getProductQuantity());
+    }
+
+    @Test
+    void editProduct_negativeCase_productNotFound() {
+        Product updated = new Product();
+        updated.setProductId("999");
+        updated.setProductName("Ghost Product");
+        updated.setProductQuantity(1);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> service.update(updated)
+        );
+    }
+
+    // ================= DELETE PRODUCT =================
+
+    @Test
+    void deleteProduct_positiveCase() {
+        Product product = new Product();
+        product.setProductId("2");
+        product.setProductName("Mouse");
+        product.setProductQuantity(3);
+
+        service.create(product);
+        service.deleteById("2");
+
+        assertNull(service.findById("2"));
+    }
+
+    @Test
+    void deleteProduct_negativeCase_productNotFound() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> service.deleteById("404")
+        );
+    }
 }
