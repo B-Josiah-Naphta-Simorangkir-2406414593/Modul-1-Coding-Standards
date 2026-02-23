@@ -3,6 +3,16 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.sonarqube") version "4.4.1.3373"
+}
+
+sonar{
+    properties {
+        property("sonar.projectKey", "B-Josiah-Naphta-Simorangkir-2406414593_Modul-1-Coding-Standards")
+        property("sonar.organization", "b-josiah-naphta-simorangkir-2406414593")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+    }
 }
 
 val seleniumJavaVersion = "4.14.1"
