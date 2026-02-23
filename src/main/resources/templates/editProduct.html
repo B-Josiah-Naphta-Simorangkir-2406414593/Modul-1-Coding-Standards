@@ -9,11 +9,11 @@
 <form th:action="@{/product/edit}" th:object="${product}" method="post">
   <input type="hidden" th:field="*{productId}"/>
 
-  <label>Name</label><br>
-  <input type="text" th:field="*{productName}" /><br><br>
+  <label for="productName">Name</label><br>
+  <input type="text" id="productName" th:field="*{productName}" /><br><br>
 
-  <label>Quantity</label><br>
-  <input type="number" th:field="*{productQuantity}" /><br><br>
+  <label for="productQuantity">Quantity</label><br>
+  <input type="number" id="productQuantity" th:field="*{productQuantity}" /><br><br>
 
   <button type="submit">Update</button>
 </form>
