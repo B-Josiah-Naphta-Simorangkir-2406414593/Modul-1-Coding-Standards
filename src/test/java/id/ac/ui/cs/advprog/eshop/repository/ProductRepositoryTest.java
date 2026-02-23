@@ -67,4 +67,82 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), productIterator.next().getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testCreateWithNullId() {
+        Product product = new Product();
+        product.setProductName("Product Tanpa ID");
+        product.setProductQuantity(10);
+
+        productRepository.create(product);
+        assertNotNull(product.getProductId());
+        assertFalse(product.getProductId().isEmpty());
+    }
+
+    @Test
+    void testEditProduct() {
+        Product product = new Product();
+        product.setProductId("id-lama");
+        product.setProductName("Nama Lama");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("id-lama");
+        updatedProduct.setProductName("Nama Baru");
+        updatedProduct.setProductQuantity(20);
+
+        productRepository.update(updatedProduct);
+
+        Iterator<Product> iterator = productRepository.findAll();
+        Product result = iterator.next();
+        assertEquals("Nama Baru", result.getProductName());
+        assertEquals(20, result.getProductQuantity());
+    }
+
+    @Test
+    void testFindByIdSuccess() {
+        Product product = new Product();
+        product.setProductId("id-123");
+        productRepository.create(product);
+
+        Product foundProduct = productRepository.findById("id-123");
+        assertEquals(product.getProductId(), foundProduct.getProductId());
+    }
+
+    @Test
+    void testFindByIdNotFound() {
+        Product product = new Product();
+        product.setProductId("id-123");
+        productRepository.create(product);
+
+        Product foundProduct = productRepository.findById("id-nyasar");
+        assertNull(foundProduct);
+    }
+
+    @Test
+    void testUpdateNotFound() {
+        Product product = new Product();
+        product.setProductId("id-ada");
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("id-tidak-ada");
+        updatedProduct.setProductName("Nama Baru");
+
+        Product result = productRepository.update(updatedProduct);
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteById() {
+        Product product = new Product();
+        product.setProductId("id-123");
+        productRepository.create(product);
+
+        productRepository.deleteById("id-123");
+
+        Iterator<Product> iterator = productRepository.findAll();
+        assertFalse(iterator.hasNext());
+    }
 }
