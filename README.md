@@ -69,3 +69,22 @@ Dengan cara ini, kode functional test menjadi lebih rapi, mudah dibaca, dan lebi
 
 ---
 
+# Refleksi 3
+
+## 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
+
+Selama pengerjaan latihan ini, saya mengidentifikasi dan memperbaiki beberapa masalah kualitas kode yang ditemukan oleh SonarCloud untuk meningkatkan aksesibilitas dan reliabilitas aplikasi:
+
+### 1. Atribut lang yang hilang pada tag <html>:
+
+Saya menambahkan atribut lang="en" pada tag <html> di template Thymeleaf. Hal ini penting agar screen reader dan mesin pencari dapat mengenali bahasa utama halaman web, yang merupakan aspek fundamental dalam aksesibilitas web.
+
+### 2. Asosiasi Label dan Kontrol pada Form:
+
+Saya menyambungkan elemen label dengan kontrol input yang terkait menggunakan atribut for. Karena th:field di Thymeleaf secara otomatis menghasilkan atribut id, saya memastikan atribut for pada label memiliki nilai yang sama dengan ID tersebut (atau mendefinisikan ID secara eksplisit untuk membantu validasi IDE). Ini memungkinkan kursor fokus ke input saat label diklik dan membantu teknologi asistif menjelaskan fungsi form dengan benar.
+
+## 2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
+
+Menurut saya, implementasi alur kerja saat ini sudah memenuhi definisi Continuous Integration (CI) dan Continuous Deployment (CD). Untuk bagian Continuous Integration, setiap kali ada kode yang di-push atau pembuatan Pull Request, GitHub Actions secara otomatis menjalankan test suite dan analisis kualitas kode melalui SonarCloud untuk memastikan tidak ada kode yang rusak atau pola kualitas buruk yang masuk ke branch utama. Terkait Continuous Deployment, alur kerja telah dikonfigurasi untuk memicu redeploy otomatis ke Koyeb (PaaS) menggunakan Koyeb CLI segera setelah perubahan berhasil di-merge ke branch main. Otomatisasi ini menghilangkan intervensi manual dalam proses pengiriman perangkat lunak, sehingga versi aplikasi yang paling stabil dan terbaru selalu tersedia bagi pengguna secara instan.
+
+URL Deployment: spicy-murial-module-1-codingstandards-josiah-a1bdcd2c.koyeb.app/
