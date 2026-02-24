@@ -1,0 +1,20 @@
+name: Deployment to Koyeb (CLI)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Koyeb CLI
+        run: |
+          curl https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
+
+      - name: Redeploy Service
+        env:
+          KOYEB_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
+        run: |
+          /home/runner/.koyeb/bin/koyeb login --token $KOYEB_TOKEN
+          /home/runner/.koyeb/bin/koyeb service redeploy modul-1-coding-standards/modul-1-coding-standards
