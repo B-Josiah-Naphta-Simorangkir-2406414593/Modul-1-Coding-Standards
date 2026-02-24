@@ -12,9 +12,8 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
 
-      - name: Redeploy Service
-        env:
-          KOYEB_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
+      - name: Configure and Redeploy
         run: |
-          /home/runner/.koyeb/bin/koyeb login --token $KOYEB_TOKEN
+          echo "token: ${{ secrets.KOYEB_API_TOKEN }}" > $HOME/.koyeb.yaml
+          
           /home/runner/.koyeb/bin/koyeb service redeploy modul-1-coding-standards/modul-1-coding-standards
