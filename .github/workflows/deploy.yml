@@ -15,5 +15,4 @@ jobs:
       - name: Configure and Redeploy
         run: |
           echo "token: ${{ secrets.KOYEB_API_TOKEN }}" > $HOME/.koyeb.yaml
-          
-          /home/runner/.koyeb/bin/koyeb service redeploy modul-1-coding-standards/modul-1-coding-standards
+          /home/runner/.koyeb/bin/koyeb service redeploy bcca8048-7132-4782-a98b-2a3835d96664
