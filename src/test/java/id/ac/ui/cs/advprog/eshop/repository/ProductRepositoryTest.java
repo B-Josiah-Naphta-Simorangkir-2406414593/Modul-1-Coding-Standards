@@ -92,7 +92,7 @@ class ProductRepositoryTest {
         updatedProduct.setProductName("Nama Baru");
         updatedProduct.setProductQuantity(20);
 
-        productRepository.update(updatedProduct);
+        productRepository.update(updatedProduct.getProductId(), updatedProduct);
 
         Iterator<Product> iterator = productRepository.findAll();
         Product result = iterator.next();
@@ -130,7 +130,7 @@ class ProductRepositoryTest {
         updatedProduct.setProductId("id-tidak-ada");
         updatedProduct.setProductName("Nama Baru");
 
-        Product result = productRepository.update(updatedProduct);
+        Product result = productRepository.update(updatedProduct.getProductId(), updatedProduct);
         assertNull(result);
     }
 

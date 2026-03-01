@@ -1,5 +1,5 @@
 package id.ac.ui.cs.advprog.eshop.controller;
-
+import id.ac.ui.cs.advprog.eshop.service.CarService;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,9 @@ class ProductControllerTest {
 
     @MockBean
     private ProductService service;
+
+    @MockBean
+    private CarService carService;
 
     @Test
     void testCreateProductPage() throws Exception {
