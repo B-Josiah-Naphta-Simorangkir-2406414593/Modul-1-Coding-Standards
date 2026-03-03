@@ -88,3 +88,38 @@ Saya menyambungkan elemen label dengan kontrol input yang terkait menggunakan at
 Menurut saya, implementasi alur kerja saat ini sudah memenuhi definisi Continuous Integration (CI) dan Continuous Deployment (CD). Untuk bagian Continuous Integration, setiap kali ada kode yang di-push atau pembuatan Pull Request, GitHub Actions secara otomatis menjalankan test suite dan analisis kualitas kode melalui SonarCloud untuk memastikan tidak ada kode yang rusak atau pola kualitas buruk yang masuk ke branch utama. Terkait Continuous Deployment, alur kerja telah dikonfigurasi untuk memicu redeploy otomatis ke Koyeb (PaaS) menggunakan Koyeb CLI segera setelah perubahan berhasil di-merge ke branch main. Otomatisasi ini menghilangkan intervensi manual dalam proses pengiriman perangkat lunak, sehingga versi aplikasi yang paling stabil dan terbaru selalu tersedia bagi pengguna secara instan.
 
 URL Deployment: spicy-murial-module-1-codingstandards-josiah-a1bdcd2c.koyeb.app/
+
+# Reflection Module 3
+
+## 1. Explain what principles you apply to your project!
+Proyek ini menerapkan kelima prinsip SOLID untuk memastikan kode yang dihasilkan bersih, modular, dan mudah dikelola.
+
+S - Single Responsibility Principle (SRP): Setiap kelas memiliki satu tanggung jawab utama. Contohnya, kelas ProductController hanya bertanggung jawab untuk menangani permintaan HTTP yang terkait dengan produk (membuat, menampilkan, mengedit, menghapus). Tanggung jawab untuk entitas lain, seperti Car, ditangani oleh kelasnya sendiri (CarController), sehingga setiap kelas fokus pada satu fungsi.
+
+O - Open/Closed Principle (OCP): Perangkat lunak terbuka untuk ekstensi tetapi tertutup untuk modifikasi. Pada proyek ini, jika kita ingin menambahkan fungsionalitas baru seperti entitas "Elektronik", kita tidak perlu mengubah kode ProductController atau ProductService. Sebaliknya, kita akan membuat ElectronicController dan ElectronicService baru. Ini memungkinkan penambahan fitur baru tanpa merusak fungsionalitas yang sudah ada.
+
+L - Liskov Substitution Principle (LSP): Objek dari subclass harus dapat menggantikan objek dari superclass tanpa mengganggu fungsionalitas program. Sebelumnya, prinsip ini dilanggar ketika CarController mewarisi ProductController. Ini adalah hubungan warisan yang salah karena CarController bukanlah pengganti yang valid untuk ProductController. Kode telah diperbaiki dengan memisahkan kedua kelas tersebut, sehingga tidak ada lagi pewarisan yang keliru dan LSP terpenuhi.
+
+I - Interface Segregation Principle (ISP): Klien tidak boleh dipaksa untuk bergantung pada interface yang tidak mereka gunakan. Proyek ini menerapkan ISP dengan memiliki interface yang spesifik seperti ProductService dan CarService. Dengan demikian, ProductController hanya perlu tahu tentang metode-metode di ProductService dan tidak dipaksa untuk bergantung pada metode-metode untuk Car yang tidak relevan baginya.
+
+D - Dependency Inversion Principle (DIP): Modul tingkat tinggi tidak bergantung pada modul tingkat rendah, melainkan pada abstraksi. Dalam proyek ini, ProductController (modul tingkat tinggi) tidak bergantung pada ProductServiceImpl (implementasi konkret), tetapi pada interface ProductService (abstraksi). Ini memungkinkan implementasi diubah (misalnya, dari penyimpanan di memori ke database) tanpa perlu mengubah kode di ProductController.
+
+## 2. Explain the advantages of applying SOLID principles to your project with examples.
+
+Menerapkan SOLID memberikan banyak keuntungan yang membuat proyek lebih mudah dikembangkan dan dipelihara dalam jangka panjang.
+
+a. Kode Lebih Mudah Dipelihara (Maintainability): Ketika setiap kelas memiliki satu tanggung jawab (SRP), menemukan dan memperbaiki bug menjadi lebih cepat. Contoh: Jika ada bug pada halaman daftar produk, kita tahu pasti harus memeriksa ProductController dan ProductService, tanpa perlu membaca kode yang berhubungan dengan mobil.
+
+b. Fleksibilitas dan Skalabilitas: Kode menjadi lebih mudah untuk dikembangkan. Contoh: Berkat OCP dan DIP, jika kita ingin mengganti penyimpanan produk dari ArrayList di memori ke database PostgreSQL, kita hanya perlu membuat kelas ProductServiceDbImpl yang mengimplementasikan ProductService. Setelah itu, kita cukup mengubah konfigurasi untuk menyuntikkan implementasi baru ini. ProductController tidak perlu diubah sama sekali.
+
+c. Memudahkan Pengujian (Testability): Kode yang loosely coupled (tidak terikat erat) lebih mudah diuji secara terpisah. Contoh: Karena ProductController bergantung pada interface ProductService (DIP), kita dapat dengan mudah membuat mock object dari ProductService saat menguji ProductController. Ini memungkinkan kita untuk mengisolasi pengujian hanya pada logika controller tanpa bergantung pada lapisan layanan yang sebenarnya, membuat tes lebih cepat dan andal.
+
+## 3. Explain the disadvantages of not applying SOLID principles to your project with examples.
+
+Mengabaikan prinsip SOLID akan menghasilkan kode yang kaku, rapuh, dan sulit dikelola seiring waktu.
+
+a. Kode Menjadi Kaku dan Rapuh (Rigid and Fragile): Perubahan kecil di satu bagian dapat menyebabkan kerusakan tak terduga di bagian lain. Contoh: Sebelum perbaikan, ProductController.java berisi definisi CarController. Mengubah sesuatu di ProductController bisa saja secara tidak sengaja merusak fungsionalitas CarController. Ini adalah contoh kode yang rapuh.
+
+b. Sulit untuk Diuji: Kode yang terikat erat (tightly coupled) sulit diuji secara terisolasi. Contoh: Masalah awal pada ProductControllerTest adalah contoh nyata dari ini. Karena ProductController dan CarController berada dalam satu file dan melanggar beberapa prinsip, framework pengujian menjadi bingung dan gagal menyiapkan tes dengan benar. Ketergantungan langsung pada CarServiceImpl (pelanggaran DIP) juga membuat mocking menjadi lebih sulit.
+
+c. Sulit Dipahami dan Dikembangkan: Kode menjadi tidak intuitif dan membingungkan bagi pengembang lain atau bahkan diri sendiri di masa depan. Contoh: Seorang pengembang baru yang melihat logika CarController di dalam file bernama ProductController.java (pelanggaran SRP) akan bingung. Ini meningkatkan waktu yang dibutuhkan untuk memahami alur program dan membuat perubahan, sehingga memperlambat proses pengembangan.
