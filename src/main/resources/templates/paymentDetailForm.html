@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Cari Payment</title></head>
 <body>
-
+<h2>Cari Detail Pembayaran</h2>
+<form onsubmit="event.preventDefault(); window.location.href='/payment/detail/' + document.getElementById('payId').value;">
+    <label>Masukkan Payment ID:</label>
+    <input type="text" id="payId" required/>
+    <button type="submit">Cari</button>
+</form>
 </body>
 </html>

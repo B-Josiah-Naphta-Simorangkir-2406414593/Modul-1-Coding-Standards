@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Bayar Order</title></head>
 <body>
+<h2>Pembayaran untuk Order ID: <span th:text="${order.id}"></span></h2>
 
+<form th:action="@{/order/pay/{id}(id=${order.id})}" method="post">
+    <label>Metode Pembayaran:</label>
+    <select name="method">
+        <option value="VOUCHER">Voucher Code</option>
+        <option value="CASH_ON_DELIVERY">Cash On Delivery (COD)</option>
+    </select>
+    <br><br>
+
+    <h4>Untuk Voucher:</h4>
+    <label>Kode Voucher:</label>
+    <input type="text" name="voucherCode" placeholder="ESHOP..."/>
+    <br><br>
+
+    <h4>Untuk COD:</h4>
+    <label>Alamat:</label>
+    <input type="text" name="address"/>
+    <br>
+    <label>Biaya Ongkir:</label>
+    <input type="text" name="deliveryFee"/>
+    <br><br>
+
+    <button type="submit">Proses Pembayaran</button>
+</form>
 </body>
 </html>

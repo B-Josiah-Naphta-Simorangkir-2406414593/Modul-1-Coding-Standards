@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Order History</title></head>
 <body>
-
+<h2>Cari Order History</h2>
+<form th:action="@{/order/history}" method="post">
+    <label>Masukkan Nama (Author):</label>
+    <input type="text" name="author" required/>
+    <button type="submit">Search</button>
+</form>
 </body>
 </html>

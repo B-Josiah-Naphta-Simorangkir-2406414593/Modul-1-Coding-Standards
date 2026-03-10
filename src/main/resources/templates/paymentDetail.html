@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Detail Payment</title></head>
 <body>
-
+<h2>Detail Pembayaran</h2>
+<p><strong>Payment ID:</strong> <span th:text="${payment.id}"></span></p>
+<p><strong>Metode:</strong> <span th:text="${payment.method}"></span></p>
+<p><strong>Status:</strong> <span th:text="${payment.status}"></span></p>
+<p><strong>Order ID terkait:</strong> <span th:text="${payment.order.id}"></span></p>
+<br>
+<a href="/payment/detail">Cari ID Lain</a>
 </body>
 </html>
