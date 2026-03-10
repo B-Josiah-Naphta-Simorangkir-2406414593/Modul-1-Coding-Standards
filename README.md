@@ -123,3 +123,29 @@ a. Kode Menjadi Kaku dan Rapuh (Rigid and Fragile): Perubahan kecil di satu bagi
 b. Sulit untuk Diuji: Kode yang terikat erat (tightly coupled) sulit diuji secara terisolasi. Contoh: Masalah awal pada ProductControllerTest adalah contoh nyata dari ini. Karena ProductController dan CarController berada dalam satu file dan melanggar beberapa prinsip, framework pengujian menjadi bingung dan gagal menyiapkan tes dengan benar. Ketergantungan langsung pada CarServiceImpl (pelanggaran DIP) juga membuat mocking menjadi lebih sulit.
 
 c. Sulit Dipahami dan Dikembangkan: Kode menjadi tidak intuitif dan membingungkan bagi pengembang lain atau bahkan diri sendiri di masa depan. Contoh: Seorang pengembang baru yang melihat logika CarController di dalam file bernama ProductController.java (pelanggaran SRP) akan bingung. Ini meningkatkan waktu yang dibutuhkan untuk memahami alur program dan membuat perubahan, sehingga memperlambat proses pengembangan.
+
+# Reflection Module 4
+
+## 1. TDD Flow Reflection
+
+Berdasarkan prinsip dari Percival (2017), alur Test-Driven Development (TDD) yang saya terapkan dalam pengerjaan tutorial ini sangat berguna.
+
+Manfaat yang dirasakan: Dengan menulis unit test terlebih dahulu (seperti pada OrderTest dan OrderRepositoryTest), saya dipaksa untuk memikirkan requirement dan edge cases secara detail sebelum menulis implementasi. Contohnya, tes testCreateOrderInvalidStatus memastikan bahwa sistem tidak menerima status sembarangan sejak awal perancangan.
+
+Keamanan Kode: TDD memberikan rasa aman saat saya nantinya mengisi body dari method yang masih return null tadi. Jika saya membuat kesalahan logika, tes yang sudah ada akan langsung mendeteksi (red), sehingga saya bisa langsung memperbaikinya hingga menjadi green.
+
+Rencana Berikutnya: Jika nanti tes terasa terlalu lambat atau sulit dibuat, saya perlu lebih memperhatikan test isolation. Penggunaan Mockito (seperti di OrderServiceTest) sudah sangat membantu, namun saya harus memastikan tidak terlalu banyak melakukan over-mocking agar tes tetap merepresentasikan perilaku sistem yang sebenarnya.
+
+## 2. F.I.R.S.T. Principle Reflection
+
+Setelah meninjau unit test yang telah dibuat, berikut adalah refleksi terhadap prinsip F.I.R.S.T:
+
+Fast: Tes berjalan sangat cepat karena tidak ada keterkaitan dengan database eksternal atau jaringan. Penggunaan ArrayList di repository dan Mockito di service menjaga performa tes tetap optimal.
+
+Independent: Setiap tes bersifat independen. Penggunaan @BeforeEach untuk melakukan setup data baru (seperti menginisialisasi orders dan products) memastikan bahwa status dari satu tes tidak mempengaruhi tes lainnya.
+
+Repeatable: Tes ini dapat dijalankan di lingkungan mana pun (laptop saya maupun CI/CD) dengan hasil yang konsisten karena tidak bergantung pada variabel lingkungan yang dinamis.
+
+Self-Validating: Semua tes menggunakan assertions (seperti assertEquals, assertNull, assertThrows) yang secara otomatis menentukan apakah tes berhasil atau gagal tanpa perlu pengecekan log manual.
+
+Timely: Tes dibuat tepat waktu (sebelum implementasi), sesuai dengan kaidah TDD.

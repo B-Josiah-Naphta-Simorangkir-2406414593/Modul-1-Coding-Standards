@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Daftar Payment</title></head>
+<body>
+<h2>Daftar Semua Pembayaran (Admin)</h2>
+<table border="1">
+    <tr>
+        <th>Payment ID</th>
+        <th>Metode</th>
+        <th>Status</th>
+        <th>Aksi</th>
+    </tr>
+    <tr th:each="payment : ${payments}">
+        <td th:text="${payment.id}"></td>
+        <td th:text="${payment.method}"></td>
+        <td th:text="${payment.status}"></td>
+        <td>
+            <a th:href="@{/payment/admin/detail/{id}(id=${payment.id})}">Review / Update</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Pembayaran Selesai</title></head>
+<body>
+<h2>Pembayaran Berhasil Diproses!</h2>
+<p>ID Pembayaran kamu adalah: <strong th:text="${paymentId}"></strong></p>
+<a th:href="@{/order/history}">Kembali ke Order History</a>
+</body>
+</html>
