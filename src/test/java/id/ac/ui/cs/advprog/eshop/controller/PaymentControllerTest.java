@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.PaymentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,14 @@ class PaymentControllerTest {
 
     @BeforeEach
     void setUp() {
-        Order order = new Order("ord-1", new ArrayList<>(), 1L, "Josiah");
+        List<Product> products = new ArrayList<>();
+        Product product = new Product();
+        product.setProductId("prod-1");
+        product.setProductName("Kecap");
+        product.setProductQuantity(1);
+        products.add(product);
+
+        Order order = new Order("ord-1", products, 1L, "Josiah");
         payment = new Payment("pay-1", "VOUCHER", "SUCCESS", new HashMap<>(), order);
     }
 
