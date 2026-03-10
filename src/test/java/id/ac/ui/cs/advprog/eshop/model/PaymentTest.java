@@ -3,7 +3,9 @@ package id.ac.ui.cs.advprog.eshop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +19,15 @@ public class PaymentTest {
     void setUp() {
         paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
-        order = new Order("order-id", null, 123456789L, "Josiah");
+
+        List<Product> products = new ArrayList<>();
+        Product product = new Product();
+        product.setProductId("prod-1");
+        product.setProductName("Kecap");
+        product.setProductQuantity(1);
+        products.add(product);
+
+        order = new Order("order-id", products, 123456789L, "Josiah");
     }
 
     @Test
